@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/components/AuthProvider";
+import { Toaster } from "@/components/ui/toaster";
 import Navbar from "@/components/Navbar";
 import Dashboard from "./pages/Dashboard";
 import CropPlanning from "./pages/CropPlanning";
@@ -29,6 +30,7 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
+      <Toaster />
     </BrowserRouter>
   </AuthProvider>
 );
