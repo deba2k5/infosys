@@ -154,7 +154,7 @@ export const satelliteService = {
   }
 };
 
-async function performGeospatialAnalysis(features: any[], lat: number, lon: number): Promise<GeospatialAnalysis> {
+async function performGeospatialAnalysis(features: unknown[], lat: number, lon: number): Promise<GeospatialAnalysis> {
   // Simulate advanced geospatial analysis
   return getSimulatedGeospatialAnalysis(lat, lon);
 }

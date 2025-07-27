@@ -20,12 +20,29 @@ import { Button } from '@/components/ui/button';
 
 const SERPER_API_KEY = '1ed76e52b93c255cfe96f4d5a70d4aadd2952696';
 
+interface CropRecommendation {
+  name: string;
+  suitability: number;
+  expectedYield: string;
+  profitability: string;
+  season: string;
+  waterRequirement: string;
+  marketDemand: string;
+  investmentNeeded: string;
+  pros: string[];
+  cons: string[];
+}
+
+interface SearchResultItem {
+  snippet: string;
+}
+
 const CropPlanning = () => {
   const [soilType, setSoilType] = useState('');
   const [season, setSeason] = useState('');
   const [budget, setBudget] = useState('');
   const [area, setArea] = useState('');
-  const [cropRecommendations, setCropRecommendations] = useState<any[]>([]);
+  const [cropRecommendations, setCropRecommendations] = useState<CropRecommendation[]>([]);
   const [loading, setLoading] = useState(false);
 
   const weatherConditions = {
@@ -69,7 +86,7 @@ const CropPlanning = () => {
         }
       });
 
-      const snippets = res.data.organic.map((item: any) => item.snippet).join(' ');
+      const snippets = res.data.organic.map((item: SearchResultItem) => item.snippet).join(' ');
       const crops = extractCropNames(snippets);
 
       const summary = crops.map((crop, index) => ({

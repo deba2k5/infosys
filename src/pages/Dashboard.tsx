@@ -121,7 +121,6 @@ const Dashboard = () => {
         }
       })();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location, forecast]);
 
   // --- Fetch satellite data and farm metrics ---
