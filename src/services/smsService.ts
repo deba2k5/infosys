@@ -39,7 +39,7 @@ export const smsService = {
       // Store SMS in local storage for tracking
       const sentSMS: SMSAlert = {
         id: generateId(),
-        type: type as any,
+        type: type as SMSAlert['type'],
         message,
         timestamp: new Date(),
         status: response.success ? 'sent' : 'failed',
@@ -54,7 +54,7 @@ export const smsService = {
     }
   },
 
-  async sendWeatherAlert(weatherData: any, phoneNumber: string = SMS_TARGET_NUMBER): Promise<boolean> {
+  async sendWeatherAlert(weatherData: { temperature: number; condition: string; humidity: number; rainChance?: number }, phoneNumber: string = SMS_TARGET_NUMBER): Promise<boolean> {
     const message = `🌦️ KrishakSure Weather Alert
 Temperature: ${weatherData.temperature}°C
 Condition: ${weatherData.condition}
@@ -75,7 +75,7 @@ For detailed guidance, open KrishakSure app or call our helpline.`;
     return this.sendSMSAlert(message, 'crop', phoneNumber);
   },
 
-  async sendMarketAlert(marketData: any, phoneNumber: string = SMS_TARGET_NUMBER): Promise<boolean> {
+  async sendMarketAlert(marketData: { crop: string; price: number; market: string; trend: string }, phoneNumber: string = SMS_TARGET_NUMBER): Promise<boolean> {
     const message = `💰 KrishakSure Market Update
 ${marketData.crop}: ₹${marketData.price}/quintal
 Market: ${marketData.market}
@@ -142,7 +142,7 @@ Reply STOP to unsubscribe.`;
 };
 
 // Helper functions
-function simulateSMSGateway(smsData: any): Promise<{ success: boolean; messageId?: string }> {
+function simulateSMSGateway(smsData: { message: string; phoneNumber: string }): Promise<{ success: boolean; messageId?: string }> {
   return new Promise((resolve) => {
     // Simulate network delay
     setTimeout(() => {

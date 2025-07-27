@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -47,14 +47,7 @@ const Weather = () => {
   const { location } = useLocation();
   const { toast } = useToast();
 
-  useEffect(() => {
-    if (location) {
-      loadWeatherData();
-      loadSatelliteData();
-    }
-  }, [location]);
-
-  const loadWeatherData = async () => {
+  const loadWeatherData = useCallback(async () => {
     try {
       setLoading(true);
       const lat = location?.latitude || 22.5726; // default Kolkata
@@ -86,9 +79,9 @@ const Weather = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [location, toast]);
 
-  const loadSatelliteData = async () => {
+  const loadSatelliteData = useCallback(async () => {
     try {
       const lat = location?.latitude || 22.5726;
       const lon = location?.longitude || 88.3639;
@@ -97,7 +90,14 @@ const Weather = () => {
     } catch (error) {
       console.error('Satellite data loading error:', error);
     }
-  };
+  }, [location]);
+
+  useEffect(() => {
+    if (location) {
+      loadWeatherData();
+      loadSatelliteData();
+    }
+  }, [location, loadWeatherData, loadSatelliteData]);
 
   const handleRefresh = () => {
     if (location) {

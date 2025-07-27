@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 export interface LocationData {
   latitude: number;
@@ -21,9 +21,9 @@ export const useLocation = () => {
 
   useEffect(() => {
     getCurrentLocation();
-  }, []);
+  }, [getCurrentLocation]);
 
-  const getCurrentLocation = () => {
+  const getCurrentLocation = useCallback(() => {
     setLoading(true);
     setError(null);
 
@@ -87,7 +87,7 @@ export const useLocation = () => {
         maximumAge: 300000 // 5 minutes
       }
     );
-  };
+  }, []);
 
   const reverseGeocode = async (lat: number, lon: number): Promise<Omit<LocationData, 'latitude' | 'longitude' | 'accuracy'>> => {
     try {

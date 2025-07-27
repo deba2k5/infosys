@@ -88,7 +88,16 @@ export const weatherService = {
       const data = await response.json();
       const days = ['Today', 'Tomorrow', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
       
-      return data.data.timelines[0].intervals.slice(0, 7).map((interval: any, index: number) => ({
+      interface WeatherInterval {
+        values: {
+          temperatureMax: number;
+          temperatureMin: number;
+          weatherCode: number;
+          precipitationProbability: number;
+        };
+      }
+      
+      return data.data.timelines[0].intervals.slice(0, 7).map((interval: WeatherInterval, index: number) => ({
         day: days[index],
         high: Math.round(interval.values.temperatureMax),
         low: Math.round(interval.values.temperatureMin),

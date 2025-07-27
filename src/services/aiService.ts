@@ -18,7 +18,7 @@ export interface CropRecommendation {
 const GEMINI_API_KEY = 'AIzaSyDj374HV1f1RDXLbIPz0BQwW5V95lTzwTc';
 
 export const aiService = {
-  async sendChatMessage(message: string, language: string = 'english', context?: any): Promise<string> {
+  async sendChatMessage(message: string, language: string = 'english', context?: Record<string, unknown>): Promise<string> {
     try {
       const systemPrompt = `You are KrishakSure AI, an expert agricultural assistant for Indian farmers. 
       Respond in ${language === 'hindi' ? 'Hindi (Devanagari script)' : language === 'marathi' ? 'Marathi' : language === 'gujarati' ? 'Gujarati' : language === 'punjabi' ? 'Punjabi' : 'English'}.
